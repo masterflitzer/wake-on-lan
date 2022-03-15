@@ -8,18 +8,27 @@ const args = parse(Deno.args);
 const config = new URL(args.config ?? args.c ?? null, import.meta.url);
 const port = args.port ?? args.p ?? 8080;
 
-const getRequestPath = (request: Request): string =>
-    request.url.split(/^https?:[/][/]+[^/]+/)[1].split(/[?#]/)[0];
+const getRequestPath = (req: Request): string =>
+    req.url.split(/^https?:[/][/]+[^/]+/)[1].split(/[?#]/)[0];
 
-const getData = async (key: string): Promise<string> => {
-    const text = await Deno.readTextFile(config);
-    const json = JSON.parse(text);
-    return json[key];
+type WOL = {
+    name: string;
+    ip: string;
+    mac: string;
+    port: number;
 };
 
-const wake = async (json): Promise<boolean> => {
+const getData = async (key: string): Promise<WOL> => {
+    const text = await Deno.readTextFile(config);
+    const json: Array<WOL> = JSON.parse(text);
+    const result: WOL | null = json.find((x) => x.name === key) ?? null;
+    if (result !== null) return result;
+    else throw new Error("Failed to find the specified config entry");
+};
+
+const wake = async (json: WOL): Promise<boolean> => {
     const wol = Deno.run({
-        cmd: ["wakeonlan", "-i", json.ip, "-p", json.port, json.mac],
+        cmd: ["wakeonlan", "-i", json.ip, "-p", json.port.toString(), json.mac],
     });
     const status = await wol.status();
     return status.success;
@@ -29,8 +38,10 @@ const handler = async (request: Request): Promise<Response> => {
     const path = getRequestPath(request);
     if (path !== "/") return new Response(null, { status: 404 });
 
-    const key = "test";
-    const data = getData(key);
+    // TODO: Add support for dynamic config
+    // const key = request.body.get("key") ?? null;
+    const key = "masterflitzer";
+    const data = await getData(key);
 
     let response: Response;
     if (await wake(data)) {
