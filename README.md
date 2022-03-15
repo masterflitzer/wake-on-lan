@@ -1,1 +1,1 @@
-# wake-on-lan
+# Wake on LAN
