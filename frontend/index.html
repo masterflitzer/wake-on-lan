@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Wake on LAN</title>
+
+    <link rel="icon" href="img/favicon.svg">
+
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="css/bootstrap-addition.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script defer src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="js/main.js"></script>
+</head>
+<body class="bg-dark text-light">
+    <header>
+        <div class="container-fluid">
+            <h1 id="title" class="display-3 text-center py-3 text-nowrap"></h1>
+        </div>
+    </header>
+    <main>
+        <div id="container"
+             class="row row-cols-auto container d-flex flex-row flex-wrap justify-content-center align-items-center gap-3">
+            <template id="wol-target">
+                <div class="wol col-auto d-flex flex-column border rounded gap-2 p-3">
+                    <span class="name text-center fw-bold"></span>
+                    <div class="row row-cols-auto d-flex flex-row">
+                        <span class="col fw-bold m-auto">MAC:</span>
+                        <span class="col mac fw-normal m-auto"></span>
+                    </div>
+                </div>
+            </template>
+        </div>
+        <noscript>
+            <div class="d-flex gap-3 alert alert-danger rounded m-3" role="alert">
+                <span class="bi bi-exclamation-circle"></span>
+                <span>You need to enable JavaScript to run this app!</span>
+            </div>
+        </noscript>
+    </main>
+    <footer>
+        <div class="container-fluid">
+        </div>
+    </footer>
+</body>
+</html>

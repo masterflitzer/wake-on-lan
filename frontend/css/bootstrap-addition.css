@@ -1,0 +1,6 @@
+.bg-dark .form-control,
+.bg-dark .input-group-text {
+    color: var(--bs-light) !important;
+    background-color: var(--bs-gray-dark) !important;
+    border-color: var(--bs-gray) !important;
+}
